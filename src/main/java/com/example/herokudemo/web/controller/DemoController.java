@@ -2,13 +2,14 @@ package com.example.herokudemo.web.controller;
 
 import com.example.herokudemo.web.client.MulesoftClient;
 import com.example.herokudemo.web.model.CommonMessageDTO;
-import com.example.herokudemo.web.model.CommonMessageTemplateDTO;
 import com.example.herokudemo.web.services.DemoService;
-import org.springframework.http.HttpHeaders;
+import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
 import java.util.logging.Logger;
 
 /**
@@ -22,10 +23,10 @@ public class DemoController {
     private Logger logger = Logger.getLogger(DemoController.class.getName());
 
     private final DemoService demoService;
-
     private final MulesoftClient mulesoftClient;
 
-    public DemoController(DemoService demoService, MulesoftClient mulesoftClient) {
+    public DemoController(DemoService demoService,
+                          MulesoftClient mulesoftClient) {
         this.demoService = demoService;
         this.mulesoftClient = mulesoftClient;
     }
@@ -52,6 +53,8 @@ public class DemoController {
     public ResponseEntity<CommonMessageDTO> customerUpdate(@RequestBody CommonMessageDTO message){
         logger.info("Received customer update request.");
         this.mulesoftClient.sendCustomerUpdateEmail(message);
+        logger.info("Saving message.");
+        this.demoService.saveMesage(message);
         return new ResponseEntity<CommonMessageDTO>(message, HttpStatus.CREATED);
     }
 
@@ -90,6 +93,8 @@ public class DemoController {
         logger.info("Received customer opt-in-out request.");
         logger.info("Opt value: "+Boolean.toString(message.getMessage().isOptOut()));
         this.mulesoftClient.sendCustomerOpt(message);
+        logger.info("Saving message.");
+        this.demoService.saveMesage(message);
         return new ResponseEntity<CommonMessageDTO>(message, HttpStatus.CREATED);
     }
 
@@ -120,6 +125,8 @@ public class DemoController {
     public ResponseEntity<CommonMessageDTO> productOffer(@RequestBody CommonMessageDTO message){
         logger.info("Received customer product offer request.");
         this.mulesoftClient.sendProductOffer(message);
+        logger.info("Saving message.");
+        this.demoService.saveMesage(message);
         return new ResponseEntity<CommonMessageDTO>(message, HttpStatus.CREATED);
     }
 }

@@ -1,14 +1,12 @@
 package com.example.herokudemo.web.client;
 
 import com.example.herokudemo.web.model.CommonMessageDTO;
-import com.example.herokudemo.web.model.CommonMessageTemplateDTO;
 import com.google.gson.Gson;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.util.logging.Logger;
 
 @Component

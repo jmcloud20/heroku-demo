@@ -7,4 +7,5 @@ public interface DemoService {
     public CommonMessageDTO getSampleCommonMessage();
     public void saveMesage(CommonMessageDTO message);
     public void forwardMessage(CommonMessageDTO message);
+    public CommonMessageDTO getMessage();
 }
