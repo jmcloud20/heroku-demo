@@ -1,0 +1,25 @@
+package com.example.herokudemo.web.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class MessageDTO {
+    private String userId;
+    private String oldEmail;
+    private String newEmail;
+    private String mobile;
+    private String email;
+    private String hkId;
+    private String brand;
+    @JsonProperty("opt-out")
+    private boolean optOut;
+    private String offerId;
+    private String type;
+}
