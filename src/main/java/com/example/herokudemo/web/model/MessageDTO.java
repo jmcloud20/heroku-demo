@@ -14,11 +14,10 @@ public class MessageDTO {
     private String userId;
     private String oldEmail;
     private String newEmail;
-    private String mobile;
+    private int mobile;
     private String email;
     private String hkId;
     private String brand;
-    @JsonProperty("opt-out")
     private boolean optOut;
     private String offerId;
     private String type;

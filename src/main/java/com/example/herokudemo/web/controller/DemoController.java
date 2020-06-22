@@ -85,7 +85,7 @@ public class DemoController {
      *                 }
      * }
      */
-    @PostMapping("/cust_optOut_optIn")
+    @PostMapping("/CUST_optOut_optIn")
     public ResponseEntity<CommonMessageDTO> customerOpt(@RequestBody CommonMessageDTO message){
         logger.info("Received customer opt-in-out request.");
         logger.info("Opt value: "+Boolean.toString(message.getMessage().isOptOut()));

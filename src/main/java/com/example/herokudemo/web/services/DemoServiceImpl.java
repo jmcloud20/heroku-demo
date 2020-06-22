@@ -18,7 +18,7 @@ public class DemoServiceImpl implements DemoService {
                 .message(MessageDTO.builder()
                         .brand("testBrand")
                         .email("testEmail")
-                        .mobile("testMobile")
+                        .mobile(98989898)
                         .hkId(UUID.randomUUID().toString()).build()).build();
     }
 

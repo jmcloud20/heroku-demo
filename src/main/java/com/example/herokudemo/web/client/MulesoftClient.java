@@ -2,6 +2,7 @@ package com.example.herokudemo.web.client;
 
 import com.example.herokudemo.web.model.CommonMessageDTO;
 import com.example.herokudemo.web.model.CommonMessageTemplateDTO;
+import com.google.gson.Gson;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
@@ -35,12 +36,18 @@ public class MulesoftClient {
 
     public void sendCustomerOpt(CommonMessageDTO commonMessageDTO){
         StringBuilder generateUrl = new StringBuilder(apiHost).append(CUST_OPT_PATH);
+        this.testConvertedObjectJson(commonMessageDTO);
         this.forwardMessagePost(generateUrl.toString(), commonMessageDTO);
     }
 
     public void sendProductOffer(CommonMessageDTO commonMessageDTO){
         StringBuilder generateUrl = new StringBuilder(apiHost).append(PROD_OFFER_PATH);
         this.forwardMessagePost(generateUrl.toString(), commonMessageDTO);
+    }
+
+    private void testConvertedObjectJson(CommonMessageDTO commonMessageDTO){
+        Gson gson = new Gson();
+        String json = gson.toJson(commonMessageDTO);
     }
 
     private void forwardMessagePost(String url, CommonMessageDTO message){
