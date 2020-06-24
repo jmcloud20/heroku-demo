@@ -22,6 +22,10 @@ public class PageController {
         this.demoService = demoService;
     }
 
+    public String getIndexPage(){
+        return "index";
+    }
+
     @GetMapping("/latestMessage")
     public String getLatestMessage(Model model){
         Gson gson = new Gson();
