@@ -1,7 +1,7 @@
 package com.example.herokudemo.web.controller;
 
 import com.example.herokudemo.web.model.CommonMessageDTO;
-import com.example.herokudemo.web.services.DemoService;
+import com.example.herokudemo.web.services.ProducerService;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 @RequestMapping("/page")
 public class PageController {
 
-    private final DemoService demoService;
+    private final ProducerService producerService;
 
-    private Logger logger = Logger.getLogger(DemoController.class.getName());
+    private final Logger logger = Logger.getLogger(PublisherController.class.getName());
 
-    public PageController(DemoService demoService) {
-        this.demoService = demoService;
+    public PageController(ProducerService producerService) {
+        this.producerService = producerService;
     }
 
     public String getIndexPage(){
@@ -29,7 +29,7 @@ public class PageController {
     @GetMapping("/latestMessage")
     public String getLatestMessage(Model model){
         Gson gson = new Gson();
-        CommonMessageDTO message = demoService.getMessage();
+        CommonMessageDTO message = producerService.getMessage();
 
         logger.info("Trying to access page.");
         logger.info("Data retrieved: "+ gson.toJson(message));

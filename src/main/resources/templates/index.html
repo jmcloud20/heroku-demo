@@ -69,14 +69,14 @@
 			}
 
 			$( document ).ready(function() {
-				$('#optOutMsg').val('{"topic":"CUST_optOut_optIn", "desc":"Customer request opt-out/opt-in", "message":{"userId":"U2313532432", ' +
+				$('#optOutMsg').val('{"topic":"CUST_optOut_optIn", "desc":"Customer request opt-out/opt-in", "message":{"source":"cloud","userId":"U2313532432", ' +
 						'"mobile":98989898, "email":"", "hkId":"", "brand":"csl", "optOut":true}}');
 
 				$('#productOfferMsg').val('{"topic":"PROD_offer", "desc":"New/update product offer",' +
-						'"message":{ "offerId":"O19840328490", "brand":"csl", "type":"new" }}');
+						'"message":{ "source":"cloud","offerId":"O19840328490", "brand":"csl", "type":"new" }}');
 
 				$('#updateEmailMsg').val('{"topic":"CUST_update_email", "desc":"Customer update email address", '+
-						'"message":{ "userId":"U231353674", "oldEmail":"ewjilkfw@netvigator.com", "newEmail":"abcdefg@netvigator.com" } }');
+						'"message":{ "source":"cloud", "userId":"U231353674", "oldEmail":"ewjilkfw@netvigator.com", "newEmail":"abcdefg@netvigator.com" } }');
 			});
 		</script>
 </head>

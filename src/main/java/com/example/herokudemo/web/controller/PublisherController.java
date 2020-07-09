@@ -2,14 +2,11 @@ package com.example.herokudemo.web.controller;
 
 import com.example.herokudemo.web.client.MulesoftClient;
 import com.example.herokudemo.web.model.CommonMessageDTO;
-import com.example.herokudemo.web.services.DemoService;
-import com.google.gson.Gson;
+import com.example.herokudemo.web.services.ProducerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletContext;
 import java.util.logging.Logger;
 
 /**
@@ -18,23 +15,20 @@ import java.util.logging.Logger;
  */
 @RestController
 @RequestMapping("/api")
-public class DemoController {
+public class PublisherController {
 
-    private Logger logger = Logger.getLogger(DemoController.class.getName());
+    private final Logger logger = Logger.getLogger(PublisherController.class.getName());
 
-    private final DemoService demoService;
-    private final MulesoftClient mulesoftClient;
+    private final ProducerService producerService;
+    private final MulesoftClient restTemplateImpl;
 
-    public DemoController(DemoService demoService,
-                          MulesoftClient mulesoftClient) {
-        this.demoService = demoService;
-        this.mulesoftClient = mulesoftClient;
+    public PublisherController(ProducerService producerService,
+                               MulesoftClient restTemplateImpl) {
+        this.producerService = producerService;
+        this.restTemplateImpl = restTemplateImpl;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<CommonMessageDTO> testMessage(){
-        return new ResponseEntity<CommonMessageDTO>(this.demoService.getSampleCommonMessage(), HttpStatus.OK);
-    }
+
 
     /**
      * Customer update email
@@ -52,9 +46,9 @@ public class DemoController {
     @PostMapping("/cust_update_email")
     public ResponseEntity<CommonMessageDTO> customerUpdate(@RequestBody CommonMessageDTO message){
         logger.info("Received customer update request.");
-        this.mulesoftClient.sendCustomerUpdateEmail(message);
+        this.restTemplateImpl.sendCustomerUpdateEmail(message);
         logger.info("Saving message.");
-        this.demoService.saveMesage(message);
+        this.producerService.saveMesage(message);
         return new ResponseEntity<CommonMessageDTO>(message, HttpStatus.CREATED);
     }
 
@@ -91,10 +85,10 @@ public class DemoController {
     @PostMapping("/CUST_optOut_optIn")
     public ResponseEntity<CommonMessageDTO> customerOpt(@RequestBody CommonMessageDTO message){
         logger.info("Received customer opt-in-out request.");
-        logger.info("Opt value: "+Boolean.toString(message.getMessage().isOptOut()));
-        this.mulesoftClient.sendCustomerOpt(message);
+        logger.info("Opt value: "+ message.getMessage().isOptOut());
+        this.restTemplateImpl.sendCustomerOpt(message);
         logger.info("Saving message.");
-        this.demoService.saveMesage(message);
+        this.producerService.saveMesage(message);
         return new ResponseEntity<CommonMessageDTO>(message, HttpStatus.CREATED);
     }
 
@@ -124,9 +118,11 @@ public class DemoController {
     @PostMapping("/prod_offer")
     public ResponseEntity<CommonMessageDTO> productOffer(@RequestBody CommonMessageDTO message){
         logger.info("Received customer product offer request.");
-        this.mulesoftClient.sendProductOffer(message);
+        this.restTemplateImpl.sendProductOffer(message);
         logger.info("Saving message.");
-        this.demoService.saveMesage(message);
+        this.producerService.saveMesage(message);
         return new ResponseEntity<CommonMessageDTO>(message, HttpStatus.CREATED);
     }
+
+
 }
