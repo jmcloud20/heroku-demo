@@ -28,24 +28,18 @@ public class RestTemplateImpl implements MulesoftClient{
     }
 
     public void sendCustomerUpdateEmail(CommonMessageDTO commonMessageDTO){
-        StringBuilder generateUrl = new StringBuilder(apiHost).append(CUST_UPDATE_PATH);
-        this.forwardMessagePost(generateUrl.toString(), commonMessageDTO);
+        String generateUrl = apiHost.concat(CUST_UPDATE_PATH);
+        this.forwardMessagePost(generateUrl, commonMessageDTO);
     }
 
     public void sendCustomerOpt(CommonMessageDTO commonMessageDTO){
-        StringBuilder generateUrl = new StringBuilder(apiHost).append(CUST_OPT_PATH);
-        this.testConvertedObjectJson(commonMessageDTO);
-        this.forwardMessagePost(generateUrl.toString(), commonMessageDTO);
+        String generateUrl = apiHost.concat(CUST_OPT_PATH);
+        this.forwardMessagePost(generateUrl, commonMessageDTO);
     }
 
     public void sendProductOffer(CommonMessageDTO commonMessageDTO){
-        StringBuilder generateUrl = new StringBuilder(apiHost).append(PROD_OFFER_PATH);
-        this.forwardMessagePost(generateUrl.toString(), commonMessageDTO);
-    }
-
-    private void testConvertedObjectJson(CommonMessageDTO commonMessageDTO){
-        Gson gson = new Gson();
-        String json = gson.toJson(commonMessageDTO);
+        String generateUrl = apiHost.concat(PROD_OFFER_PATH);
+        this.forwardMessagePost(generateUrl, commonMessageDTO);
     }
 
     private void forwardMessagePost(String url, CommonMessageDTO message){
