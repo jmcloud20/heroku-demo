@@ -1,9 +1,9 @@
 package com.example.herokudemo.web.services;
 
 import com.example.herokudemo.web.model.CommonMessageDTO;
-import com.example.herokudemo.web.model.loadtest.LoadTestingParameterDTO;
 import com.example.herokudemo.web.model.MessageDTO;
-import com.example.herokudemo.web.services.loadtest.*;
+import com.example.herokudemo.web.model.loadtest.LoadTestingParameterDTO;
+import com.example.herokudemo.web.services.loadtest.action.ActionFactory;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
@@ -18,13 +18,13 @@ public class ProducerServiceImpl implements ProducerService {
     private final ServletContext servletContext;
     private final String CONTEXT_KEY = "LATEST_MESSAGE";
 
-    private final LoadTestClientFactory loadTestClientFactory;
+    private final ActionFactory actionFactory;
 
-    public ProducerServiceImpl(
-            ServletContext servletContext, LoadTestClientFactory loadTestClientFactory) {
+
+    public ProducerServiceImpl(ServletContext servletContext, ActionFactory actionFactory) {
 
         this.servletContext = servletContext;
-        this.loadTestClientFactory = loadTestClientFactory;
+        this.actionFactory = actionFactory;
     }
 
     @Override
@@ -50,23 +50,10 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     @Override
-    public void startLoadTest(LoadTestingParameterDTO loadTestingParameterDTO) throws InterruptedException {
-        LoadTestClient client = this.loadTestClientFactory.getInstance(loadTestingParameterDTO.getTopic());
-        int numOfThread = loadTestingParameterDTO.getNumberOfThread();
-
-        logger.info("Number of threads to be created: "+numOfThread);
-        for(int i=0;i<numOfThread;i++){
-            String threadName = "LoadTestThread-"+i;
-
-            logger.info("Create a timer task.");
-            LoadTestTimerTask timerTask = new LoadTestTimerTask(client);
-
-            logger.info("Creating thread: "+threadName);
-            LoadTestRunnable runnable = new LoadTestRunnable(timerTask, threadName, loadTestingParameterDTO);
-            new Thread(runnable, threadName).start();
-            Thread.sleep(5500);
-        }
-
+    public void startLoadTest(LoadTestingParameterDTO loadTestingParameterDTO) {
+        actionFactory.getInstance(
+                loadTestingParameterDTO.getAction(),
+                loadTestingParameterDTO).run();
     }
 
 }

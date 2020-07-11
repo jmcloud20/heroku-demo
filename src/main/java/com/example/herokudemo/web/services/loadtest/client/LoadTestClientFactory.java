@@ -1,5 +1,6 @@
-package com.example.herokudemo.web.services.loadtest;
+package com.example.herokudemo.web.services.loadtest.client;
 
+import com.example.herokudemo.web.model.CommonMessageDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -21,24 +22,30 @@ public class LoadTestClientFactory {
         this.updateEmail = updateEmail;
     }
 
-    public LoadTestClient getInstance(String key){
+    public LoadTestClient getInstance(String key, CommonMessageDTO commonMessageDTO){
         LoadTestClient client=null;
 
-        for(LoadTestClientKey clientKey :LoadTestClientKey.values()){
+        for(ClientKey clientKey : ClientKey.values()){
             if(clientKey.toString().equalsIgnoreCase(key)) {
                 client = this.createRunnableClientMapping().get(clientKey);
                 break;
             }
         }
+        if(client == null) {
+            logger.info("Topic parameter key is invalid: " + key);
+            return null;
+        }
+
+        client.setMessage(commonMessageDTO);
         return client;
     }
 
-    private Map<LoadTestClientKey, LoadTestClient> createRunnableClientMapping(){
+    private Map<ClientKey, LoadTestClient> createRunnableClientMapping(){
         logger.info("Creating runnable client instance map.");
-        Map<LoadTestClientKey, LoadTestClient> runnableClients = new HashMap<LoadTestClientKey, LoadTestClient>(3);
-        runnableClients.put(LoadTestClientKey.CUST_OPT, customerOpt);
-        runnableClients.put(LoadTestClientKey.PROD_OFFER, productOffer);
-        runnableClients.put(LoadTestClientKey.CUST_EMAIL, updateEmail);
+        Map<ClientKey, LoadTestClient> runnableClients = new HashMap<ClientKey, LoadTestClient>(3);
+        runnableClients.put(ClientKey.CUST_OPT, customerOpt);
+        runnableClients.put(ClientKey.PROD_OFFER, productOffer);
+        runnableClients.put(ClientKey.CUST_EMAIL, updateEmail);
         return runnableClients;
     }
 }

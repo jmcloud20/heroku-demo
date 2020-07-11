@@ -1,4 +1,4 @@
-package com.example.herokudemo.web.services.loadtest;
+package com.example.herokudemo.web.services.loadtest.client;
 
 import com.example.herokudemo.web.client.MulesoftClient;
 import com.example.herokudemo.web.model.CommonMessageDTO;
@@ -17,6 +17,11 @@ public class ProductOffer implements LoadTestClient {
     @Override
     public void setMessage(CommonMessageDTO commonMessageDTO) {
         this.commonMessageDTO = commonMessageDTO;
+    }
+
+    @Override
+    public CommonMessageDTO getMessage() {
+        return this.commonMessageDTO;
     }
 
     @Override

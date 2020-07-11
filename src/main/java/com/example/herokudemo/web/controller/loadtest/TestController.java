@@ -5,10 +5,7 @@ import com.example.herokudemo.web.model.loadtest.LoadTestingParameterDTO;
 import com.example.herokudemo.web.services.ProducerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
 
@@ -40,13 +37,15 @@ public class TestController {
             @RequestParam String topic,
             @RequestParam int numberOfThread,
             @RequestParam int totalCallPerThread,
-            @RequestParam int interval
+            @RequestParam int interval,
+            @RequestBody CommonMessageDTO commonMessageDTO
     ){
         logger.info("Action: "+action);
         logger.info("Topic: "+topic);
         logger.info("Number of Thread: "+numberOfThread);
         logger.info("Total call per Thread: "+totalCallPerThread);
         logger.info("Interval: "+interval);
+        logger.info("Request Body: "+commonMessageDTO);
 
         try {
             this.producerService.startLoadTest(LoadTestingParameterDTO.builder()
@@ -55,6 +54,7 @@ public class TestController {
                     .numberOfThread(numberOfThread)
                     .totalCallPerThread(totalCallPerThread)
                     .interval(interval)
+                    .commonMessageDTO(commonMessageDTO)
                     .build());
         } catch (InterruptedException e) {
             e.printStackTrace();
