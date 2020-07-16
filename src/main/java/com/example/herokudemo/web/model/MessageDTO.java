@@ -1,6 +1,5 @@
 package com.example.herokudemo.web.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +21,5 @@ public class MessageDTO {
     private boolean optOut;
     private String offerId;
     private String type;
+    private long publishTime;
 }
